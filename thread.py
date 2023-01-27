@@ -1,3 +1,11 @@
+"""
+
+Topic: Thread
+
+Keyword: Main Thread, Child Thread, Daemon Thread, Thread.join()
+
+"""
+
 import threading
 import time
 import logging
@@ -19,22 +27,23 @@ def main():
     logging.info("Creates Child-Threads")
 
     child_thread = threading.Thread(
-        target=test_thread_func, args=("Child", 10,))
+        target=test_thread_func, args=("Child", 5000000,))
 
     daemon_thread = threading.Thread(
-        target=test_thread_func, args=("Daemon", 10,), daemon=True)
+        target=test_thread_func, args=("Daemon", 5000000,), daemon=False)
 
     # Starts Created Thread
 
     child_thread.start()
     daemon_thread.start()
 
-    # Stop Main Thread until the Child Threads finish
+# Stop Main Thread until the Child Threads finish
 
-    # child_thread.join()
-    # daemon_thread.join()
+# child_thread.join()
+# daemon_thread.join()
 
-    logging.info("Main-Thread done")
+
+logging.info("Main-Thread done")
 
 
 if __name__ == "__main__":
