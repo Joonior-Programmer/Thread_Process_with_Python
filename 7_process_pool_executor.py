@@ -14,7 +14,7 @@ def count(process):
     process_name = current_process().name
     pid = os.getpid()
     for i in range(10000):
-        print(f"Process:{process} Process Name:{process_name} PID:{pid}, work = {i}\n")
+        print(f"Process:{process} Process Name:{process_name} PID:{pid}, work = {i}\n", end="")
     return process
 
 

@@ -30,7 +30,7 @@ def process_function():
     for i in range(10000):
         pid = os.getpid()
         p_name = current_process().name
-        print(f"Name: {p_name}, Process ID: {pid}, -> Work: {i}")
+        print(f"Name: {p_name}, Process ID: {pid}, -> Work: {i}\n", end="")
 
 def main():
 

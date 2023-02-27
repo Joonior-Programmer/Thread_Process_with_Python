@@ -14,7 +14,7 @@ import logging
 def test_thread_func(name, n):
     logging.info("%s-Thread : started", name)
     for i in range(n):
-        print(name, i)
+        print(name, i, "\n", end="")
     logging.info("%s-Thread : done", name)
 
 

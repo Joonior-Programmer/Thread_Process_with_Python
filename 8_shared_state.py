@@ -1,4 +1,4 @@
-from multiprocessing import Process, Value, current_process
+from multiprocessing import Process, Value, current_process, Lock
 import os
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import time
@@ -9,17 +9,18 @@ def add_one_not_sharing(v: int, process: int):
     pid = os.getpid()
     for _ in range(10000):
         v += 1
-        print(f"Process:{process}, PID: {pid}, PName: {process_name}, Value = {v}")
+        print(f"Process:{process}, PID: {pid}, PName: {process_name}, Value = {v}\n", end="")
     print(f"Process:{process}, PID: {pid}, PName: {process_name} Done")
 
 
-def add_one_sharing(v: Value, process: int):
+def add_one_sharing(v: Value, process: int, lock):
     process_name = current_process().name
     pid = os.getpid()
     for _ in range(10000):
-        # time.sleep(0.1)
+        lock.acquire()
         v.value += 1
-        print(f"Process:{process}, PID: {pid}, PName: {process_name}, Value = {v.value}")
+        lock.release()
+        print(f"Process:{process}, PID: {pid}, PName: {process_name}, Value = {v.value}\n", end="")
     print(f"Process:{process}, PID: {pid}, PName: {process_name} Done")
 
 
@@ -46,16 +47,19 @@ def main():
 
     # Shared O without Lock
     """ As You can see, if there is no lock, the value might be the case as you expected"""
-    value = Value('i', 0, lock=False)
+    value = Value('i', 0)
+
+    # If you want to use Lock, Uncomment lock features in the add_one_sharing function
+    lock = Lock()
+
     processes = []
     for i in range(1, 11):
-        processes.append(Process(target=add_one_sharing, args=(value, i)))
+        p = Process(target=add_one_sharing, args=(value, i, lock))
+        processes.append(p)
+        p.start()
 
     for process in processes:
-        process.start()
-
-        # If you want to lock, Add line below
-        # process.join()
+        process.join()
 
     print(f"Final Value = {value.value}")
 
