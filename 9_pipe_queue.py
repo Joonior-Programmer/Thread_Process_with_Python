@@ -10,11 +10,12 @@ def count_hundred_millions_with_queue(process_id:int, q: Queue):
     temp = 0
     for i in range(1, 100000001):
         """ If you want to see the work-flow, uncomment it """
-        # print(f"Process: {process_id}, Process Name: {process_name}, PID: {pid}, Added = {i}\n", end="")
+        print(f"Process: {process_id}, Process Name: {process_name}, PID: {pid}, Added = {i}\n", end="")
         temp += 1
 
     q.put(temp)
     print(f"Process: {process_id} Done")
+
 
 def count_hundred_millions_with_pipe(process_id:int, p: Pipe):
     pid = os.getpid()
